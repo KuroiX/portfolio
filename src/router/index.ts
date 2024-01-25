@@ -3,14 +3,18 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', redirect: '/dashboard' },
+    { path: '/', redirect: '/projects' },
     {
       path: '/',
-      component: () => import('../layouts/default.vue'),
+      component: () => import('../layouts/custom.vue'),
       children: [
         {
           path: 'dashboard',
           component: () => import('../pages/dashboard.vue'),
+        },
+        {
+          path: 'projects',
+          component: () => import('../pages/projects.vue'),
         },
         {
           path: 'account-settings',
