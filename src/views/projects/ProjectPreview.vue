@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
 
-type Project = {title: string, subtitle: string, src: string, languages: string[], technologies: string[], bulletPoints: string[]}
+interface Project { title: string; subtitle: string; src: string; languages: string[]; technologies: string[]; bulletPoints: string[] }
 
-const props = defineProps<{project: Project}>()
+const props = defineProps<{ project: Project }>()
 
 const vuetifyTheme = useTheme()
 
@@ -52,12 +52,12 @@ const moreList = [
       :src="project.src"
     >
       <!--
-      <VCardTitle class="text-primary">
+        <VCardTitle class="text-primary">
         Daruma
-      </VCardTitle>
-      <VCardSubtitle>
+        </VCardTitle>
+        <VCardSubtitle>
         A cool game with the eye of Sauron!
-      </VCardSubtitle>
+        </VCardSubtitle>
       -->
     </VImg>
 
@@ -76,23 +76,17 @@ const moreList = [
 
     <VCardText>
       <VChipGroup>
-        <VChip
-          v-for="language in project.languages"
-        >
+        <VChip v-for="language in project.languages">
           {{ language }}
         </VChip>
 
-        <VChip
-          v-for="technology in project.technologies"
-        >
+        <VChip v-for="technology in project.technologies">
           {{ technology }}
         </VChip>
       </VChipGroup>
 
       <VList class="card-list mt-7">
-        <VListItem
-          v-for="bulletPoint in project.bulletPoints"
-        >
+        <VListItem v-for="bulletPoint in project.bulletPoints">
           <template #prepend>
             <VAvatar
               rounded
@@ -105,7 +99,6 @@ const moreList = [
 
           {{ bulletPoint }}
         </VListItem>
-
       </VList>
     </VCardText>
   </VCard>

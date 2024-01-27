@@ -1,53 +1,61 @@
 <script setup lang="ts">
-import ProjectPreview from "@/views/projects/ProjectPreview.vue";
+import ProjectPreview from '@/views/projects/ProjectPreview.vue'
+import ProjectSpotlight from "@/views/projects/ProjectSpotlight.vue";
 
-type Project = {title: string, subtitle: string, src: string, languages: string[], technologies: string[], bulletPoints: string[]}
+interface Project { title: string; subtitle: string; src: string; languages: string[]; technologies: string[]; bulletPoints: string[] }
 
-const projects : Project[] = [{
-    title: "Daruma",
-    subtitle: "A cool eye of Sauron game",
-    src: "src/assets/images/projects/daruma.png",
-    languages: ["C#"],
-    technologies: ["Unity"],
-    bulletPoints: ["Implemented a cool hide and seek with sneaking around",
-      "Iterated over level design many times to make it look nice"],
-  },{
-    title: "PaceMaker",
-    subtitle: "A cool eye of Sauron game",
-    src: "src/assets/images/projects/daruma.png",
-    languages: ["Typescript"],
-    technologies: ["Vue 3"],
-    bulletPoints: ["Implemented a cool hide and seek with sneaking around",
-      "Iterated over level design many times to make it look nice"],
-  },{
-    title: "Experimental Hub",
-    subtitle: "A cool eye of Sauron game",
-    src: "src/assets/images/projects/daruma.png",
-    languages: ["Python", "C++"],
-    technologies: [],
-    bulletPoints: ["Implemented a cool hide and seek with sneaking around",
-      "Iterated over level design many times to make it look nice", "boisssss"],
-  },{
-    title: "Experimental Hub",
-    subtitle: "A cool eye of Sauron game",
-    src: "src/assets/images/projects/daruma.png",
-    languages: ["Python", "C++"],
-    technologies: [],
-    bulletPoints: ["Implemented a cool hide and seek with sneaking around",
-      "Iterated over level design many times to make it look nice", "boisssss"],
-  }]
+const projects: Project[] = [{
+  title: 'Daruma',
+  subtitle: 'A cool eye of Sauron game',
+  src: 'src/assets/images/projects/daruma.png',
+  languages: ['C#'],
+  technologies: ['Unity'],
+  bulletPoints: ['Implemented a cool hide and seek with sneaking around',
+    'Iterated over level design many times to make it look nice'],
+}, {
+  title: 'PaceMaker',
+  subtitle: 'A cool eye of Sauron game',
+  src: 'src/assets/images/projects/daruma.png',
+  languages: ['Typescript'],
+  technologies: ['Vue 3'],
+  bulletPoints: ['Implemented a cool hide and seek with sneaking around',
+    'Iterated over level design many times to make it look nice'],
+}, {
+  title: 'Experimental Hub',
+  subtitle: 'A cool eye of Sauron game',
+  src: 'src/assets/images/projects/daruma.png',
+  languages: ['Python', 'C++'],
+  technologies: [],
+  bulletPoints: ['Implemented a cool hide and seek with sneaking around',
+    'Iterated over level design many times to make it look nice',
+    'boisssss'],
+}, {
+  title: 'Experimental Hub',
+  subtitle: 'A cool eye of Sauron game',
+  src: 'src/assets/images/projects/daruma.png',
+  languages: ['Python', 'C++'],
+  technologies: [],
+  bulletPoints: ['Implemented a cool hide and seek with sneaking around',
+    'Iterated over level design many times to make it look nice',
+    'boisssss'],
+}]
 
-const languages = projects.flatMap(value => {
+const languages = [...new Set(projects.flatMap(value => {
   return value.languages
-})
+}))]
 
-const technologies = projects.flatMap(value => {
+const technologies = [...new Set(projects.flatMap(value => {
   return value.technologies
-})
+}))]
 
 const languageSelection = ref([])
 
 const technologySelection = ref([])
+
+function resetSelection() {
+  resetLanguageSelection()
+  resetTechnologySelection()
+}
 
 function resetLanguageSelection() {
   languageSelection.value = []
@@ -60,27 +68,25 @@ function resetTechnologySelection() {
 const filters = computed(() => {
   return languageSelection.value.map(id => languages[id]).concat(technologySelection.value.map(id => technologies[id]))
 })
-
-watch(technologySelection, () => {
-  console.log("hello")
-})
 </script>
 
 <template>
   <VRow>
     <VCol
       cols="12"
-      md="3"
+      md="4"
       sm="6"
+      order="1"
     >
       <VCard>
         <VCardTitle>
-          Language Filter
+          Filters
         </VCardTitle>
         <VCardSubtitle>
-          Choose the languages that you want to filter by
+          You can filter the projects by various categories.
         </VCardSubtitle>
         <VCardText>
+          Languages
           <VChipGroup
             v-model="languageSelection"
             selected-class="text-primary"
@@ -92,27 +98,8 @@ watch(technologySelection, () => {
             </VChip>
           </VChipGroup>
         </VCardText>
-        <VCardActions>
-          <VBtn @click="resetLanguageSelection">
-            Reset
-          </VBtn>
-        </VCardActions>
-      </VCard>
-    </VCol>
-
-    <VCol
-      cols="12"
-      md="3"
-      sm="6"
-    >
-      <VCard>
-        <VCardTitle>
-          Technology Filter
-        </VCardTitle>
-        <VCardSubtitle>
-          Choose the technologies that you want to filter by
-        </VCardSubtitle>
         <VCardText>
+          Technologies
           <VChipGroup
             v-model="technologySelection"
             selected-class="text-primary"
@@ -125,31 +112,37 @@ watch(technologySelection, () => {
           </VChipGroup>
         </VCardText>
         <VCardActions>
-          <VBtn @click="resetTechnologySelection">
+          <VBtn @click="resetSelection">
             Reset
           </VBtn>
         </VCardActions>
       </VCard>
     </VCol>
+    <VCol
+      cols="12"
+      md="2"
+      sm="6"
+      order="1"
+    >
+      <VCard>
+        Hello
+      </VCard>
+    </VCol>
 
-  </VRow>
-
-  <VRow>
     <!-- Projects -->
 
-    <template v-for="project in projects">
-
+    <template v-for="(project, i) in projects">
       <VCol
+        v-if="filters.length === 0 || filters.some(filter => project.technologies.includes(filter) || project.languages.includes(filter))"
         cols="12"
-        lg="3"
+        :lg="i === 0 ? 6 : 3"
         md="4"
         sm="6"
-        v-if="filters.length == 0 || filters.some(filter => project.technologies.includes(filter) || project.languages.includes(filter))"
+        :order="i === 0 ? '0' : '2'"
       >
-        <ProjectPreview :project="project"/>
+        <ProjectSpotlight v-if="i === 0" :project="project"/>
+        <ProjectPreview v-else :project="project" />
       </VCol>
-
     </template>
-
   </VRow>
 </template>
