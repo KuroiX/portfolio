@@ -235,8 +235,8 @@ const balanceData = [
     <VRow no-gutters>
       <VCol
         cols="12"
-        sm="7"
-        xl="8"
+        sm="8"
+        xl="7"
         :class="$vuetify.display.smAndUp ? 'border-e' : 'border-b'"
       >
         <VImg
@@ -281,7 +281,7 @@ const balanceData = [
       <VCol
         cols="12"
         sm="5"
-        xl="4"
+        xl="5"
       >
         <VCardText>
           <VList class="card-list mt-7">
@@ -290,7 +290,7 @@ const balanceData = [
                 <VAvatar
                   rounded
                   variant="tonal"
-                  color="primary"
+                  color="info"
                 >
                   <VIcon icon="bx-right-arrow-circle" />
                 </VAvatar>

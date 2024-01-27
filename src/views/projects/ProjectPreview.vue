@@ -91,7 +91,7 @@ const moreList = [
             <VAvatar
               rounded
               variant="tonal"
-              color="primary"
+              color="info"
             >
               <VIcon icon="bx-right-arrow-circle" />
             </VAvatar>

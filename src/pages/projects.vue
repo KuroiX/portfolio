@@ -52,6 +52,14 @@ const languageSelection = ref([])
 
 const technologySelection = ref([])
 
+const filters = computed(() => {
+  return languageSelection.value.map(id => languages[id]).concat(technologySelection.value.map(id => technologies[id]))
+})
+
+const selection = computed(() =>
+  projects.filter(project => filters.value.length === 0 || filters.value.every(filter => project.technologies.includes(filter) || project.languages.includes(filter)))
+)
+
 function resetSelection() {
   resetLanguageSelection()
   resetTechnologySelection()
@@ -65,9 +73,6 @@ function resetTechnologySelection() {
   technologySelection.value = []
 }
 
-const filters = computed(() => {
-  return languageSelection.value.map(id => languages[id]).concat(technologySelection.value.map(id => technologies[id]))
-})
 </script>
 
 <template>
@@ -78,7 +83,8 @@ const filters = computed(() => {
       sm="6"
       order="1"
     >
-      <VCard>
+
+      <VCard variant="outlined" >
         <VCardTitle>
           Filters
         </VCardTitle>
@@ -128,12 +134,150 @@ const filters = computed(() => {
         Hello
       </VCard>
     </VCol>
+    <!--
+    <VCol
+      cols="12"
+      order="1"
+    >
+      <VRow>
+        <VCol
+          cols="12"
+          md="4"
+          sm="6"
+          order="1"
+        >
+
+          <VCard variant="outlined" >
+            <VCardTitle>
+              Filters
+            </VCardTitle>
+            <VCardSubtitle>
+              You can filter the projects by various categories.
+            </VCardSubtitle>
+            <VCardText>
+              Languages
+              <VChipGroup
+                v-model="languageSelection"
+                selected-class="text-primary"
+                multiple
+                filter
+              >
+                <VChip v-for="language in languages">
+                  {{ language }}
+                </VChip>
+              </VChipGroup>
+            </VCardText>
+            <VCardText>
+              Technologies
+              <VChipGroup
+                v-model="technologySelection"
+                selected-class="text-primary"
+                multiple
+                filter
+              >
+                <VChip v-for="technology in technologies">
+                  {{ technology }}
+                </VChip>
+              </VChipGroup>
+            </VCardText>
+            <VCardActions>
+              <VBtn @click="resetSelection">
+                Reset
+              </VBtn>
+            </VCardActions>
+          </VCard>
+        </VCol>
+        <VCol
+          cols="12"
+          md="2"
+          sm="6"
+          order="1"
+        >
+          <VCard>
+            Hello
+          </VCard>
+        </VCol>
+      </VRow>
+      <VRow>
+        <VCol
+          cols="12"
+          md="4"
+          sm="6"
+          order="1"
+        >
+
+          <VCard variant="outlined" >
+            <VCardTitle>
+              Filters
+            </VCardTitle>
+            <VCardSubtitle>
+              You can filter the projects by various categories.
+            </VCardSubtitle>
+            <VCardText>
+              Languages
+              <VChipGroup
+                v-model="languageSelection"
+                selected-class="text-primary"
+                multiple
+                filter
+              >
+                <VChip v-for="language in languages">
+                  {{ language }}
+                </VChip>
+              </VChipGroup>
+            </VCardText>
+            <VCardText>
+              Technologies
+              <VChipGroup
+                v-model="technologySelection"
+                selected-class="text-primary"
+                multiple
+                filter
+              >
+                <VChip v-for="technology in technologies">
+                  {{ technology }}
+                </VChip>
+              </VChipGroup>
+            </VCardText>
+            <VCardActions>
+              <VBtn @click="resetSelection">
+                Reset
+              </VBtn>
+            </VCardActions>
+          </VCard>
+        </VCol>
+        <VCol
+          cols="12"
+          md="2"
+          sm="6"
+          order="1"
+        >
+          <VCard>
+            Hello
+          </VCard>
+        </VCol>
+      </VRow>
+    </VCol>
+    -->
 
     <!-- Projects -->
+    <VCol
+      v-if="selection.length === 0"
+      cols="12"
+      lg="6"
+      md="4"
+      sm="6"
+      order="0"
+    >
+      <VCard>
+        <VCardTitle>
+          No project found!
+        </VCardTitle>
+      </VCard>
+    </VCol>
 
-    <template v-for="(project, i) in projects">
+    <template v-for="(project, i) in selection">
       <VCol
-        v-if="filters.length === 0 || filters.some(filter => project.technologies.includes(filter) || project.languages.includes(filter))"
         cols="12"
         :lg="i === 0 ? 6 : 3"
         md="4"
