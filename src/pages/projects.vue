@@ -5,40 +5,33 @@ import ProjectSpotlight from "@/views/projects/ProjectSpotlight.vue";
 interface Project { title: string; subtitle: string; src: string; languages: string[]; technologies: string[]; bulletPoints: string[] }
 
 const projects: Project[] = [{
-  title: 'Daruma',
-  subtitle: 'A cool eye of Sauron game',
+  title: 'shattered',
+  subtitle: 'See 3D with autostereograms (magic eye)!',
+  src: 'src/assets/images/projects/shattered.png',
+  languages: ['C#', 'HLSL'],
+  technologies: ['Unity'],
+  bulletPoints: ['Developed a highly technical shader utilizing multiple sub-steps in the graphics pipeline',
+    'Implemented an innovative algorithm to create an autostereogram of the entire scene, enabling the perception of 3D images on a standard screen',
+    'Details + Windows Build: https://kuroix.itch.io/shattered'],
+}, {
+  title: 'janken-pose',
+  subtitle: 'An arcade-style rock-paper-scissors game using full-body poses!',
   src: 'src/assets/images/projects/daruma.png',
   languages: ['C#'],
-  technologies: ['Unity'],
-  bulletPoints: ['Implemented a cool hide and seek with sneaking around',
-    'Iterated over level design many times to make it look nice'],
+  technologies: ['Unity', 'Kinect'],
+  bulletPoints: ['Developed an immersive mixed-reality game utilizing Kinect technology',
+    'Implemented a sophisticated algorithm leveraging linear algebra to recognize and capture player poses',
+    'Calculated joint angles and directions, ensuring accurate and responsive pose recognition during gameplay'],
 }, {
-  title: 'PaceMaker',
-  subtitle: 'A cool eye of Sauron game',
+  title: 'FastState',
+  subtitle: 'A high-performance implementation of state charts',
   src: 'src/assets/images/projects/daruma.png',
-  languages: ['Typescript'],
-  technologies: ['Vue 3'],
-  bulletPoints: ['Implemented a cool hide and seek with sneaking around',
-    'Iterated over level design many times to make it look nice'],
-}, {
-  title: 'Experimental Hub',
-  subtitle: 'A cool eye of Sauron game',
-  src: 'src/assets/images/projects/daruma.png',
-  languages: ['Python', 'C++'],
+  languages: ['C#'],
   technologies: [],
-  bulletPoints: ['Implemented a cool hide and seek with sneaking around',
-    'Iterated over level design many times to make it look nice',
-    'boisssss'],
-}, {
-  title: 'Experimental Hub',
-  subtitle: 'A cool eye of Sauron game',
-  src: 'src/assets/images/projects/daruma.png',
-  languages: ['Python', 'C++'],
-  technologies: [],
-  bulletPoints: ['Implemented a cool hide and seek with sneaking around',
-    'Iterated over level design many times to make it look nice',
-    'boisssss'],
-}]
+  bulletPoints: ['Utilized data-oriented programming principles inspired by Unity DOTS (Data-Oriented Technology Stack) and the Entity Component System (ECS)',
+    'Implemented a streamlined approach by simplifying states to bitmasks',
+    'Leveraged native processor operations for bit-wise comparisons, enhancing computational efficiency'],
+},]
 
 const languages = [...new Set(projects.flatMap(value => {
   return value.languages
@@ -76,6 +69,70 @@ function resetTechnologySelection() {
 </script>
 
 <template>
+  <VRow>
+    <VCol
+      cols="12"
+      md="4"
+      sm="4"
+      order="1"
+    >
+
+      <VCard variant="outlined" >
+        <VCardTitle>
+          Filters
+        </VCardTitle>
+        <VCardSubtitle>
+          You can filter the projects by various categories.
+        </VCardSubtitle>
+        <VCardText>
+          Languages
+          <VChipGroup
+            v-model="languageSelection"
+            selected-class="text-primary"
+            multiple
+            filter
+          >
+            <VChip v-for="language in languages">
+              {{ language }}
+            </VChip>
+          </VChipGroup>
+        </VCardText>
+        <VCardText>
+          Technologies
+          <VChipGroup
+            v-model="technologySelection"
+            selected-class="text-primary"
+            multiple
+            filter
+          >
+            <VChip v-for="technology in technologies">
+              {{ technology }}
+            </VChip>
+          </VChipGroup>
+        </VCardText>
+        <VCardActions>
+          <VBtn @click="resetSelection">
+            Reset
+          </VBtn>
+        </VCardActions>
+      </VCard>
+    </VCol>
+    <!--
+<VCol
+  cols="12"
+  md="2"
+  sm="6"
+  order="1"
+>
+  <VCard>
+    Hello
+  </VCard>
+</VCol>
+
+<VCol
+  cols="12"
+  order="1"
+>
   <VRow>
     <VCol
       cols="12"
@@ -134,131 +191,68 @@ function resetTechnologySelection() {
         Hello
       </VCard>
     </VCol>
-    <!--
+  </VRow>
+  <VRow>
     <VCol
       cols="12"
+      md="4"
+      sm="6"
       order="1"
     >
-      <VRow>
-        <VCol
-          cols="12"
-          md="4"
-          sm="6"
-          order="1"
-        >
 
-          <VCard variant="outlined" >
-            <VCardTitle>
-              Filters
-            </VCardTitle>
-            <VCardSubtitle>
-              You can filter the projects by various categories.
-            </VCardSubtitle>
-            <VCardText>
-              Languages
-              <VChipGroup
-                v-model="languageSelection"
-                selected-class="text-primary"
-                multiple
-                filter
-              >
-                <VChip v-for="language in languages">
-                  {{ language }}
-                </VChip>
-              </VChipGroup>
-            </VCardText>
-            <VCardText>
-              Technologies
-              <VChipGroup
-                v-model="technologySelection"
-                selected-class="text-primary"
-                multiple
-                filter
-              >
-                <VChip v-for="technology in technologies">
-                  {{ technology }}
-                </VChip>
-              </VChipGroup>
-            </VCardText>
-            <VCardActions>
-              <VBtn @click="resetSelection">
-                Reset
-              </VBtn>
-            </VCardActions>
-          </VCard>
-        </VCol>
-        <VCol
-          cols="12"
-          md="2"
-          sm="6"
-          order="1"
-        >
-          <VCard>
-            Hello
-          </VCard>
-        </VCol>
-      </VRow>
-      <VRow>
-        <VCol
-          cols="12"
-          md="4"
-          sm="6"
-          order="1"
-        >
-
-          <VCard variant="outlined" >
-            <VCardTitle>
-              Filters
-            </VCardTitle>
-            <VCardSubtitle>
-              You can filter the projects by various categories.
-            </VCardSubtitle>
-            <VCardText>
-              Languages
-              <VChipGroup
-                v-model="languageSelection"
-                selected-class="text-primary"
-                multiple
-                filter
-              >
-                <VChip v-for="language in languages">
-                  {{ language }}
-                </VChip>
-              </VChipGroup>
-            </VCardText>
-            <VCardText>
-              Technologies
-              <VChipGroup
-                v-model="technologySelection"
-                selected-class="text-primary"
-                multiple
-                filter
-              >
-                <VChip v-for="technology in technologies">
-                  {{ technology }}
-                </VChip>
-              </VChipGroup>
-            </VCardText>
-            <VCardActions>
-              <VBtn @click="resetSelection">
-                Reset
-              </VBtn>
-            </VCardActions>
-          </VCard>
-        </VCol>
-        <VCol
-          cols="12"
-          md="2"
-          sm="6"
-          order="1"
-        >
-          <VCard>
-            Hello
-          </VCard>
-        </VCol>
-      </VRow>
+      <VCard variant="outlined" >
+        <VCardTitle>
+          Filters
+        </VCardTitle>
+        <VCardSubtitle>
+          You can filter the projects by various categories.
+        </VCardSubtitle>
+        <VCardText>
+          Languages
+          <VChipGroup
+            v-model="languageSelection"
+            selected-class="text-primary"
+            multiple
+            filter
+          >
+            <VChip v-for="language in languages">
+              {{ language }}
+            </VChip>
+          </VChipGroup>
+        </VCardText>
+        <VCardText>
+          Technologies
+          <VChipGroup
+            v-model="technologySelection"
+            selected-class="text-primary"
+            multiple
+            filter
+          >
+            <VChip v-for="technology in technologies">
+              {{ technology }}
+            </VChip>
+          </VChipGroup>
+        </VCardText>
+        <VCardActions>
+          <VBtn @click="resetSelection">
+            Reset
+          </VBtn>
+        </VCardActions>
+      </VCard>
     </VCol>
-    -->
+    <VCol
+      cols="12"
+      md="2"
+      sm="6"
+      order="1"
+    >
+      <VCard>
+        Hello
+      </VCard>
+    </VCol>
+  </VRow>
+</VCol>
+-->
 
     <!-- Projects -->
     <VCol
@@ -279,7 +273,7 @@ function resetTechnologySelection() {
     <template v-for="(project, i) in selection">
       <VCol
         cols="12"
-        :lg="i === 0 ? 6 : 3"
+        :lg="i === 0 ? 8 : 3"
         md="4"
         sm="6"
         :order="i === 0 ? '0' : '2'"
